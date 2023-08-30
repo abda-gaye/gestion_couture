@@ -10,6 +10,9 @@ class CategorieController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function allCategories(){
+        return Categorie::all();
+    }
     public function index()
     {
        return Categorie::paginate(3);
@@ -22,7 +25,8 @@ class CategorieController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            "libelle" => "required|min:3|unique:categories"
+            "libelle" => "required|min:3|unique:categories",
+            "type" => "required|in:confection,ventes",
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -31,11 +35,14 @@ class CategorieController extends Controller
                 "data" => []
             ],422);
         }
+
         else{
             $categorie = Categorie::create([
-                "libelle" => $request->libelle
+                "libelle" => $request->libelle,
+                "type" => $request->type
             ]);
         }
+
         if ($categorie) {
             return response()->json([
                 "statu" => 201,
@@ -49,7 +56,6 @@ class CategorieController extends Controller
                 "statu" => 500,
                 "message" => "quelque chose a mal fonctionné",
                 "data" => []
-
             ]);
         }
     }
@@ -68,7 +74,8 @@ class CategorieController extends Controller
     public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(),[
-            "libelle" => "required|min:3|unique:categories|string"
+            "libelle" => "required|min:3|unique:categories|string",
+            "type" => "required|in:confection,ventes",
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -80,7 +87,8 @@ class CategorieController extends Controller
         else{
             $categorie = Categorie::find($id);
             $categorie->update([
-                "libelle" => $request->libelle
+                "libelle" => $request->libelle,
+                "type" => $request->type
             ]);
         }
         if ($categorie) {
@@ -168,7 +176,6 @@ class CategorieController extends Controller
                 "statu" => 404,
                 "message" => false,
                 "data" => []
-
             ]);
         }
         else{
@@ -179,7 +186,6 @@ class CategorieController extends Controller
 
             ]);
         }
-
        }
 
     }

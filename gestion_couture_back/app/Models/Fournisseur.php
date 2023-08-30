@@ -4,21 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Categorie extends Model
+class Fournisseur extends Model
 {
-
-    use HasFactory,softDeletes;
+    use HasFactory;
     protected $guarded = [
-        "id"
+
     ];
     protected $hidden = [
         "created_at",
 		"updated_at"
     ];
     public function articles()
-    {
-        return $this->hasMany(Article::class);
-    }
+{
+    return $this->belongsToMany(Article::class, 'article_fournisseur');
+}
+
+public function article_fournisseur()
+{
+    return $this->hasMany(Article_Fournisseur::class);
+}
+
 }

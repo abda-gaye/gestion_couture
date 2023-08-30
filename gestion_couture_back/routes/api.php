@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ArticleVenteController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\FournisseurController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +22,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/listcategory",[CategorieController::class,"index"]);
-Route::post("/addcategory",[CategorieController::class,"store"]);
-Route::put("/updatecategory/{id}",[CategorieController::class,"update"]);
-Route::delete("/supprimer",[CategorieController::class,"supprimer"]);
-Route::get("/searchCategory",[CategorieController::class,"searchCategory"]);
+
+Route::post('/vente-articles', [ArticleVenteController::class, 'store']);
+Route::put('/vente-articles/{id}', [ArticleVenteController::class, 'update']);
+Route::delete('/vente-articles/{id}', [ArticleVenteController::class, 'destroy']);
+Route::get('/rechercher-article', [ArticleVenteController::class, 'search']);
+
